@@ -67,6 +67,12 @@ server.register(require('../'), function () {
     getGoogleCerts: fakeGoogleCert
   });
 
+  server.auth.strategy('token-novalidate', 'google-id-token', {
+    clientId,
+    urlKey: false,
+    getGoogleCerts: fakeGoogleCert
+  });
+
   server.auth.strategy('token-nocookie', 'google-id-token', {
     clientId,
     validateToken: validate,
@@ -85,6 +91,7 @@ server.register(require('../'), function () {
     { method: 'GET', path: '/token', handler: sendToken, config: { auth: 'token' } },
     { method: 'POST', path: '/privado', handler: privado, config: { auth: 'token' } },
     { method: 'POST', path: '/privadonourl', handler: privado, config: { auth: 'token-nourl' } },
+    { method: 'POST', path: '/privadonovalidate', handler: privado, config: { auth: 'token-novalidate' } },
     { method: 'POST', path: '/privadonocookie', handler: privado, config: { auth: 'token-nocookie' } },
     { method: 'POST', path: '/privadobadcert', handler: privado, config: { auth: 'token-badcert' } },
     { method: 'POST', path: '/required', handler: privado, config: { auth: { mode: 'required', strategy: 'token' } } },

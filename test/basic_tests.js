@@ -72,6 +72,19 @@ test("Access restricted content (with VALID Token)", function(t) {
   });
 });
 
+test("Valid token with no validate function", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, tokenOptions);
+  var options = {
+    method: "POST",
+    url: "/privadonovalidate",
+    headers: { authorization: "Bearer " + token }
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 200, "VALID Token should succeed!");
+    t.end();
+  });
+});
+
 test("Valid token provided via url parameter", function(t) {
   var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, tokenOptions);
   var options = {

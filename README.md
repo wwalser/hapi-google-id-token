@@ -9,7 +9,7 @@ See [Google Identity Platform docs](https://developers.google.com/identity/sign-
 ## Documentation
 
 - `clientId` - (***required***) Your application's Google apps clientId.
-- `validateToken` - (***required***) the function which is run once the Token has been decoded and verified against Google public keys.
+- `validateToken` - (***optional***) the function which is run once the Token has been decoded and verified against Google public keys.
  signature `function(decoded, request, callback)` where:
     - `decoded` - (***required***) is the ***decoded*** and ***verified*** JWT received from the client in **request.headers.authorization**
     - `request` - (***required***) is the original ***request*** received from the client
