@@ -72,6 +72,87 @@ test("Access restricted content (with VALID Token)", function(t) {
   });
 });
 
+test("Valid token provided via url parameter", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, tokenOptions);
+  var options = {
+    method: "POST",
+    url: "/privado?id_token=" + token
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 200, "VALID Token should succeed!");
+    t.end();
+  });
+});
+
+test("Valid token provided via cookie", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, tokenOptions);
+  var options = {
+    method: "POST",
+    url: "/privado",
+    headers: { cookie: "id_token=" + token}
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 200, "VALID Token should succeed!");
+    t.end();
+  });
+});
+
+test("Valid token but invalid issuer", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, {audience: "aclientid"});
+  var options = {
+    method: "POST",
+    url: "/privado",
+    headers: { authorization: "Bearer " + token }
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 401, "Invalid Token should Error!");
+    t.equal(response.result.message, 'JWT issuer invalid.', "Correct error message.");
+    t.end();
+  });
+});
+
+test("Valid token but invalid issuer", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, {issuer: "accounts.google.com"});
+  var options = {
+    method: "POST",
+    url: "/privado",
+    headers: { authorization: "Bearer " + token }
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 401, "Invalid Token should Error!");
+    t.equal(response.result.message, 'JWT audience invalid.', "Correct error message.");
+    t.end();
+  });
+});
+
+test("Valid token but error with Google cert", function(t) {
+  var token = JWT.sign({ id: 123, "name": "Charlie" }, secret, tokenOptions);
+  var options = {
+    method: "POST",
+    url: "/privadobadcert",
+    headers: { authorization: "Bearer " + token }
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 401, "Invalid Token should Error!");
+    t.equal(response.result.message, 'Failure fetching certificate.', "Correct error message.");
+    t.end();
+  });
+});
+
+test("Validation can provide custom Boom", function(t) {
+  var token = JWT.sign({ id: "boom", "name": "Boom boom boom" }, secret, tokenOptions);
+  var options = {
+    method: "POST",
+    url: "/privado",
+    headers: { authorization: "Bearer " + token }
+  };
+  server.inject(options, function(response) {
+    t.equal(response.statusCode, 415, "Invalid Token should Error!");
+    t.equal(response.result.message, 'Very strange error (test).', "Correct error message.");
+    t.end();
+  });
+});
+
 test("Access restricted content (with Well-formed but invalid Token)", function(t) {
   var token = JWT.sign({ id: 123, "name": "Charlie" }, 'badsecret', tokenOptions);
   var options = {
