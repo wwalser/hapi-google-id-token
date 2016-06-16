@@ -1,0 +1,34 @@
+{
+  "name": "hapi-google-id-token",
+  "version": "0.0.1",
+  "description": "Allows authentication using a Google ID Token",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wwalser/hapi-google-id-token.git"
+  },
+  "keywords": [
+    "oauth",
+    "google",
+    "plus",
+    "identity",
+    "hapi",
+    "authentication"
+  ],
+  "author": "Wesley Walser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wwalser/hapi-google-id-token/issues"
+  },
+  "homepage": "https://github.com/wwalser/hapi-google-id-token#readme",
+  "dependencies": {
+    "boom": "^3.2.1",
+    "hoek": "^4.0.1",
+    "joi": "^8.4.2",
+    "jsonwebtoken": "^7.0.1",
+    "request": "^2.72.0"
+  }
+}
