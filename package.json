@@ -4,7 +4,9 @@
   "description": "Allows authentication using a Google ID Token",
   "main": "lib/index.js",
   "scripts": {
-    "test": "test"
+    "test": "istanbul cover ./node_modules/tape/bin/tape ./test/*.js  | node_modules/tap-spec/bin/cmd.js",
+    "quick": "./node_modules/tape/bin/tape ./test/*.js | node_modules/tap-spec/bin/cmd.js",
+    "jshint": "./node_modules/jshint/bin/jshint -c .jshintrc --exclude-path .gitignore ."
   },
   "repository": {
     "type": "git",
@@ -26,9 +28,17 @@
   "homepage": "https://github.com/wwalser/hapi-google-id-token#readme",
   "dependencies": {
     "boom": "^3.2.1",
+    "cookie": "^0.3.1",
     "hoek": "^4.0.1",
     "joi": "^8.4.2",
     "jsonwebtoken": "^7.0.1",
     "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "hapi": "^13.4.1",
+    "istanbul": "^0.4.3",
+    "jshint": "^2.9.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.5.1"
   }
 }
