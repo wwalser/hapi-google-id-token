@@ -1,6 +1,6 @@
 {
   "name": "hapi-google-id-token",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Allows authentication using a Google ID Token",
   "main": "lib/index.js",
   "scripts": {
